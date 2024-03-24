@@ -1,0 +1,30 @@
+.top {aspect-ratio: 16 / 1; background-color: #f0f0f0; border : 2px solid black; border-bottom: none;
+    box-sizing: border-box; align-items: flex-start; padding-left: 400px; display: flex; align-items: center;}
+
+#student-id {
+    color: blue; /* 학번 폰트 색상 */
+    font-size: 15px; /* 학번 폰트 크기 */
+}
+
+#student-name {
+    color: green; /* 이름 폰트 색상 */
+    font-size: 15px; /* 이름 폰트 크기 */
+}
+
+.left, .right {flex: 1; border: 2px solid black; box-sizing: border-box;}
+
+.left {flex: 1; background-color: aliceblue; padding: 20px; display: flex; justify-content: center;
+    align-items: center; flex-direction: column;}
+
+.button {display: flex; flex-direction: column; align-items :center}
+
+.left button {width: 100px; height: 50px; margin-bottom: 10px; text-align: center; line-height: 50px;
+    background-color: lightgray; color: black; font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;}
+
+.right {flex: 4; background-color: aqua; border-left: none; display: flex; justify-content: center;
+    align-items: center; font-size: 20px; font-family: Arial, Helvetica, sans-serif; text-align: center;
+    position: relative;}
+
+.empty-screen {display: flex; justify-content: center; align-items: center; font-size: 20px;
+    color: white; font-family: Arial, Helvetica, sans-serif; text-align: center; height: 100%;}

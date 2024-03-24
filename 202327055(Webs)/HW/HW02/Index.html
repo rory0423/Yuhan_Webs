@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3개의 칸을 가진 페이지</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .container {display: flex; flex-direction: column; height: 40vh; aspect-ratio: 16 / 9;}
+        .bottom {display: flex; flex: 1;}
+        .top p {text-align: left; margin: 0;}
+        canvas {border: 2px solid block; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);}
+        .image-container {position: relative; display: flex; flex-direction: column; align-items: center;}
+        .image-container img {max-width: 200px; max-height: 200px; margin-bottom: 20px;}
+        .image-container p {margin: 0;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top">
+            <p><span id="student-id">학번 : 202327055</span> <span id="student-name">이름 : 유재영</span></p>
+        </div>
+        <div class="bottom">
+            <div class="left">
+                <button id="btn1" class="btn1" onclick="drawCircle()">버튼 1</button>
+                <button id="btn2" class="btn2" onclick="showImage()">버튼 2</button>
+            </div>
+            <div class="right">
+                <div id="emptyScreen" class="empty-screen">빈화면</div>
+                <canvas id="myCanvas" width="400" height="400"></canvas>
+                <div class="image-container" style="display: none;">
+                    <img id="image" src="Image/image.png" alt="이미지">
+                    <div>
+                        <p>게임 이름: 마스터 듀얼</p>
+                        <p>출시 년도: 2022년 1월 27일</p>
+                        <p>장르: 대전형 카드게임</p>
+                        <p>좋아하는 이유: 다양한 카드들을 통한 나만의 덱 제작</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function drawCircle()
+        {
+            const canvas = document.getElementById("myCanvas");
+            const ctx = canvas.getContext("2d");
+            canvas.style.display = "block";
+            emptyScreen.style.display = "none";
+
+            ctx.beginPath()
+            ctx.arc(canvas.width / 2, canvas.height / 2, 120, 0, 2 * Math.PI);
+            ctx.fillStyle = "white";
+            ctx.fill();
+            ctx.closePath();
+        }
+        function showImage() {
+            const imageContainer = document.querySelector(".image-container");
+            imageContainer.style.display = "flex";
+            emptyScreen.style.display = "none";
+        }
+    </script>
+</body>
+</html>
