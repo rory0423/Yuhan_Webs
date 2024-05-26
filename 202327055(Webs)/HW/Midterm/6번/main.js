@@ -66,6 +66,42 @@ class StarObject {
     }
 }
 
+class Enemy {
+    constructor(x, y, radius, speed, color) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.speed = speed;
+        this.color = color;
+    }
+
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
+
+    update() {
+        // 적은 중앙의 플레이어를 향해 움직임
+        const dx = centerX - this.x;
+        const dy = centerY - this.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const xSpeed = (dx / distance) * this.speed;
+        const ySpeed = (dy / distance) * this.speed;
+        this.x += xSpeed;
+        this.y += ySpeed;
+        this.draw();
+    }
+}
+
+function getRandomColor() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
 const enemies = [];
 
 const heartRadius = 1.5; // 하트의 반지름
@@ -75,6 +111,43 @@ heart.drawHeart();
 const starSize = 20; // 별의 크기
 const star = new StarObject(centerX + 150, centerY - 200, starSize);
 star.drawStar();
+
+const enemySpawnInterval = 1000; // 1초마다 적 생성
+
+function spawnEnemie(minX, maxX, minY, maxY)
+{
+    const spawnX = Math.random() * (maxX - minX) + minX;
+    const spawnY = Math.random() * (maxY - minY) + minY;
+    const radius = 4;
+    const speed = 0.5;
+    const color = getRandomColor();
+    const enemy = new Enemy(spawnX, spawnY, radius, speed, color);
+    enemies.push(enemy);
+}
+
+function spawnEnemies() {
+    const currentTime = Date.now();
+    if (currentTime - lastSpawnTime > enemySpawnInterval) {
+        const enemyCount = Math.floor(Math.random() * 11) + 5; // 5~15 사이의 랜덤한 수
+        for (let i = 0; i < enemyCount; i++) {
+            spawnEnemie(canvas.width + 480, canvas.width - 500, canvas.height - 600, canvas.height - 650);
+            spawnEnemie(canvas.width + 480, canvas.width - 500, canvas.height + 600, canvas.height + 650);
+            spawnEnemie(canvas.width + 480, canvas.width + 500, canvas.height + 650, canvas.height - 650);
+            spawnEnemie(canvas.width - 480, canvas.width - 500, canvas.height + 650, canvas.height - 650);
+        }
+        lastSpawnTime = currentTime;
+    }
+}
+
+function checkCollision(heart, enemy) {
+    const dx = heart.x - enemy.x;
+    const dy = heart.y - enemy.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    return distance < heart.radius + enemy.radius;
+}
+
+let isGameOver = false;
+let playerLives = 3;
 
 let keyBuffer = { x: 0, y: 0 }; // 방향키 입력 버퍼
 
@@ -111,7 +184,14 @@ function handleKeyUp(event) {
 document.addEventListener('keydown', handleKeyDown);
 document.addEventListener('keyup', handleKeyUp);
 
+function gameOver()
+{
+    window.location.href = '../7번/main.html';
+}
+
 function animate() {
+    if (isGameOver) return;
+
     requestAnimationFrame(animate);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -120,9 +200,18 @@ function animate() {
     star.drawStar();
     spawnEnemies();
 
-    enemies.forEach((star) => {
-        star.x += keyBuffer.x * 2; // 적의 X 좌표를 버퍼 값에 따라 이동
-        star.y += keyBuffer.y * 2; // 적의 Y 좌표를 버퍼 값에 따라 이동
+    enemies.forEach((enemy, index) => {
+        enemy.x += keyBuffer.x * 2; // 적의 X 좌표를 버퍼 값에 따라 이동
+        enemy.y += keyBuffer.y * 2; // 적의 Y 좌표를 버퍼 값에 따라 이동
+        enemy.update();
+        if (checkCollision(heart, enemy)) {
+            enemies.splice(index, 1); // 충돌 시 적 제거
+            playerLives--; // 플레이어 생명 감소
+            if (playerLives <= 0) {
+                isGameOver = true;
+                gameOver();
+            }
+        }
     });
 }
 

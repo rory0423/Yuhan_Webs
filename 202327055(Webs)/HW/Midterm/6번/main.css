@@ -1,0 +1,63 @@
+.green-area.top {
+  position: absolute;
+  top: calc(50% - 420px); /* 캔버스의 상단으로부터 거리 */
+  left: calc(50% - 270px); /* 캔버스의 좌측으로부터 거리 */
+  width: 540px; /* 캔버스의 너비 */
+  height: 70px; /* 녹색 영역의 높이 */
+  background-color: green;
+  opacity: 0.5;
+  z-index: 1;
+}
+
+.green-area.bottom {
+  position: absolute;
+  top: calc(50% + 350px); /* 캔버스의 하단으로부터 거리 */
+  left: calc(50% - 270px); /* 캔버스의 좌측으로부터 거리 */
+  width: 540px; /* 캔버스의 너비 */
+  height: 70px; /* 녹색 영역의 높이 */
+  background-color: green;
+  opacity: 0.5;
+  z-index: 1;
+}
+
+.green-area.left {
+  position: absolute;
+  top: calc(50% - 350px); /* 캔버스의 상단으로부터 거리 */
+  left: calc(50% - 350px); /* 캔버스의 좌측으로부터 거리 */
+  width: 70px; /* 녹색 영역의 너비 */
+  height: 700px; /* 캔버스의 높이 */
+  background-color: green;
+  opacity: 0.5;
+  z-index: 1;
+}
+
+.green-area.right {
+  position: absolute;
+  top: calc(50% - 350px); /* 캔버스의 상단으로부터 거리 */
+  left: calc(50% + 280px); /* 캔버스의 우측으로부터 거리 */
+  width: 70px; /* 녹색 영역의 너비 */
+  height: 700px; /* 캔버스의 높이 */
+  background-color: green;
+  opacity: 0.5;
+  z-index: 1;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(72, 153, 242);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.canvas-container {
+  position: relative;
+}
+
+canvas {
+  background-color: rgb(180, 180, 180);
+  display: block;
+  margin: auto;
+}
